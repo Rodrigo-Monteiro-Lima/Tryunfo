@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from './Card';
+import NewCard from './NewCard';
 
 class CardList extends Component {
   render() {
-    const { savedCards } = this.props;
+    const { savedCards, onDelButtonClick } = this.props;
     return (
       <div>
         Todas as cartas
-        {savedCards.map((card) => (<Card
+        {savedCards.map((card) => (<NewCard
           key={ card.cardName }
           cardName={ card.cardName }
           cardDescription={ card.cardDescription }
@@ -18,6 +18,7 @@ class CardList extends Component {
           cardImage={ card.cardImage }
           cardRare={ card.cardRare }
           cardTrunfo={ card.cardTrunfo }
+          onDelButtonClick={ onDelButtonClick }
         />))}
       </div>
     );
@@ -34,6 +35,7 @@ CardList.propTypes = {
     cardImage: PropTypes.string,
     cardRare: PropTypes.string,
   })).isRequired,
+  onDelButtonClick: PropTypes.func.isRequired,
 };
 
 export default CardList;

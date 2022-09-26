@@ -14,35 +14,13 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: 'normal',
+      cardRare: '',
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       savedCards: [],
     };
   }
-
-  buttonValidation = () => {
-    const { cardName, cardDescription, cardImage, cardRare } = this.state;
-    const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
-    const maxSum = 210;
-    const maxValue = 90;
-    const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
-    if (cardName && cardDescription && cardImage && cardRare !== ''
-    && +cardAttr1 > 0 && +cardAttr1 <= maxValue
-    && +cardAttr2 > 0 && +cardAttr2 <= maxValue
-    && +cardAttr3 > 0 && +cardAttr3 <= maxValue) {
-      if (sum <= maxSum) {
-        this.setState({
-          isSaveButtonDisabled: false,
-        });
-      }
-    } else {
-      this.setState({
-        isSaveButtonDisabled: true,
-      });
-    }
-  };
 
   onInputChange = ({ target }) => {
     const { name } = target;
@@ -55,6 +33,34 @@ class App extends React.Component {
     this.setState(() => ({
       [name]: value,
     }), this.buttonValidation);
+  };
+
+  buttonValidation = () => {
+    const { cardName, cardDescription, cardImage, cardRare } = this.state;
+    const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
+    const maxSum = 210;
+    const maxValue = 90;
+    if (cardName && cardDescription && cardImage && cardRare !== ''
+    && +cardAttr1 > 0 && +cardAttr1 <= maxValue
+    && +cardAttr2 > 0 && +cardAttr2 <= maxValue
+    && +cardAttr3 > 0 && +cardAttr3 <= maxValue) {
+      const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
+      if (sum <= maxSum) {
+        this.setState({
+          isSaveButtonDisabled: false,
+        });
+      }
+    } else {
+      this.setState({
+        isSaveButtonDisabled: true,
+      });
+    }
+  };
+
+  text = () => {
+    this.setState({
+      cardTrunfo: false,
+    });
   };
 
   onSaveButtonClick = () => {
@@ -73,24 +79,34 @@ class App extends React.Component {
     this.setState((prevState) => ({
       savedCards: [...prevState.savedCards, newCard],
     }));
-    this.setState(({
+    this.setState(() => ({
       cardName: '',
       cardDescription: '',
-      cardAttr1: '0',
-      cardAttr2: '0',
-      cardAttr3: '0',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
       cardImage: '',
       cardRare: 'normal',
-    }));
+    }), this.text);
+  };
+
+  onDelButtonClick = ({ target }) => {
+    target.parentNode.parentNode.removeChild(target.parentNode);
+    const text = target.parentNode.lastChild.previousSibling.innerHTML;
+    if (text === 'Super Trunfo') {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
   };
 
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3 } = this.state;
     const { cardImage, cardRare, cardTrunfo, hasTrunfo } = this.state;
-    const { isSaveButtonDisabled, savedCards } = this.state;
+    const { savedCards, isSaveButtonDisabled } = this.state;
     return (
       <div>
-        <h1>Tryunfo Game</h1>
+        <h1>TrybeTrunfo</h1>
         <Form
           cardName={ cardName }
           cardDescription={ cardDescription }
@@ -114,9 +130,11 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          hasTrunfo={ hasTrunfo }
         />
         <CardList
           savedCards={ savedCards }
+          onDelButtonClick={ this.onDelButtonClick }
         />
       </div>
     );
