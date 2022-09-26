@@ -14,7 +14,7 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: '',
+      cardRare: 'normal',
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
@@ -40,16 +40,15 @@ class App extends React.Component {
     const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
     const maxSum = 210;
     const maxValue = 90;
-    if (cardName && cardDescription && cardImage && cardRare !== ''
-    && +cardAttr1 > 0 && +cardAttr1 <= maxValue
-    && +cardAttr2 > 0 && +cardAttr2 <= maxValue
-    && +cardAttr3 > 0 && +cardAttr3 <= maxValue) {
-      const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
-      if (sum <= maxSum) {
-        this.setState({
-          isSaveButtonDisabled: false,
-        });
-      }
+    const text = cardName && cardDescription && cardImage && cardRare !== '';
+    const number = +cardAttr1 >= 0 && +cardAttr1 <= maxValue
+    && +cardAttr2 >= 0 && +cardAttr2 <= maxValue
+    && +cardAttr3 >= 0 && +cardAttr3 <= maxValue;
+    const sum = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3) <= maxSum;
+    if (text && number && sum) {
+      this.setState({
+        isSaveButtonDisabled: false,
+      });
     } else {
       this.setState({
         isSaveButtonDisabled: true,
@@ -82,9 +81,9 @@ class App extends React.Component {
     this.setState(() => ({
       cardName: '',
       cardDescription: '',
-      cardAttr1: 0,
-      cardAttr2: 0,
-      cardAttr3: 0,
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       cardImage: '',
       cardRare: 'normal',
     }), this.text);

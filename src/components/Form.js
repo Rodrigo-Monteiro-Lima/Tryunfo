@@ -10,8 +10,8 @@ class Form extends Component {
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3 } = this.props;
     const { cardImage, cardRare, cardTrunfo, isSaveButtonDisabled } = this.props;
-    const { onInputChange, onSaveButtonClick } = this.props;
-    const { hasTrunfo } = this.props;
+    const { hasTrunfo, onInputChange, onSaveButtonClick } = this.props;
+
     return (
       <form>
         <Input
