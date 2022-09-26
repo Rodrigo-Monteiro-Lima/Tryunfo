@@ -11,7 +11,7 @@ class Form extends Component {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3 } = this.props;
     const { cardImage, cardRare, cardTrunfo, isSaveButtonDisabled } = this.props;
     const { onInputChange, onSaveButtonClick } = this.props;
-    // const { hasTrunfo } = this.props;
+    const { hasTrunfo } = this.props;
     return (
       <form>
         <Input
@@ -62,7 +62,8 @@ class Form extends Component {
           onInputChange={ onInputChange }
         />
         <Select value={ cardRare } onInputChange={ onInputChange } />
-        <Checkbox value={ cardTrunfo } onInputChange={ onInputChange } />
+        {hasTrunfo ? <span>Você já tem um Super Trunfo em seu baralho</span>
+          : <Checkbox value={ cardTrunfo } onInputChange={ onInputChange } />}
         <Button
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onSaveButtonClick={ onSaveButtonClick }
@@ -81,7 +82,7 @@ Form.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
-  // hasTrunfo: PropTypes.bool.isRequired,
+  hasTrunfo: PropTypes.bool.isRequired,
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
