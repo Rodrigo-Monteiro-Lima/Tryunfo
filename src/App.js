@@ -19,6 +19,9 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       savedCards: [],
+      filter: '',
+      filteredCards: [],
+      selectFilter: 'todas',
     };
   }
 
@@ -29,6 +32,11 @@ class App extends React.Component {
       this.setState(({
         hasTrunfo: true,
       }));
+    }
+    if (name === 'filter' || name === 'selectFilter') {
+      this.setState(() => ({
+        [name]: value,
+      }), this.handleFilter);
     }
     this.setState(() => ({
       [name]: value,
@@ -77,6 +85,7 @@ class App extends React.Component {
     };
     this.setState((prevState) => ({
       savedCards: [...prevState.savedCards, newCard],
+      filteredCards: [...prevState.savedCards, newCard],
     }));
     this.setState(() => ({
       cardName: '',
@@ -99,10 +108,34 @@ class App extends React.Component {
     }
   };
 
+  handleFilter = () => {
+    const { filteredCards, filter, selectFilter } = this.state;
+    this.setState(() => ({
+      filteredCards: filteredCards
+        .filter((card) => (filter === '' ? card : card.cardName.includes(filter)))
+        .filter((card) => (selectFilter === 'todas' ? card : card
+          .cardRare === selectFilter)),
+    }));
+  };
+
+  // handleSelect = () => {
+  //   const { filteredCards, selectFilter, savedCards } = this.state;
+  //   if (selectFilter === 'todas') {
+  //     this.setState(({
+  //       filteredCards: savedCards,
+  //     }));
+  //   } else {
+  //     this.setState(({
+  //       filteredCards: savedCards
+  //         .filter((card) => card.cardRare === selectFilter),
+  //     }));
+  //   }
+  // };
+
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3 } = this.state;
-    const { cardImage, cardRare, cardTrunfo, hasTrunfo } = this.state;
-    const { savedCards, isSaveButtonDisabled } = this.state;
+    const { cardImage, cardRare, cardTrunfo, hasTrunfo, selectFilter } = this.state;
+    const { savedCards, isSaveButtonDisabled, filter, filteredCards } = this.state;
     return (
       <div>
         <h1>TrybeTrunfo</h1>
@@ -132,8 +165,12 @@ class App extends React.Component {
           hasTrunfo={ hasTrunfo }
         />
         <CardList
+          filteredCards={ filteredCards }
+          filter={ filter }
+          selectFilter={ selectFilter }
           savedCards={ savedCards }
           onDelButtonClick={ this.onDelButtonClick }
+          onInputChange={ this.onInputChange }
         />
       </div>
     );
