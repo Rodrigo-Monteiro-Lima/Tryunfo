@@ -22,6 +22,7 @@ class App extends React.Component {
       filter: '',
       filteredCards: [],
       selectFilter: 'todas',
+      checkFilter: false,
     };
   }
 
@@ -33,7 +34,7 @@ class App extends React.Component {
         hasTrunfo: true,
       }));
     }
-    if (name === 'filter' || name === 'selectFilter') {
+    if (name === 'filter' || name === 'selectFilter' || name === 'checkFilter') {
       this.setState(() => ({
         [name]: value,
       }), this.handleFilter);
@@ -109,33 +110,21 @@ class App extends React.Component {
   };
 
   handleFilter = () => {
-    const { filteredCards, filter, selectFilter } = this.state;
+    const { filteredCards, filter, selectFilter, checkFilter } = this.state;
     this.setState(() => ({
       filteredCards: filteredCards
         .filter((card) => (filter === '' ? card : card.cardName.includes(filter)))
         .filter((card) => (selectFilter === 'todas' ? card : card
-          .cardRare === selectFilter)),
+          .cardRare === selectFilter))
+        .filter((card) => (checkFilter ? card.cardTrunfo === true : card)),
     }));
   };
-
-  // handleSelect = () => {
-  //   const { filteredCards, selectFilter, savedCards } = this.state;
-  //   if (selectFilter === 'todas') {
-  //     this.setState(({
-  //       filteredCards: savedCards,
-  //     }));
-  //   } else {
-  //     this.setState(({
-  //       filteredCards: savedCards
-  //         .filter((card) => card.cardRare === selectFilter),
-  //     }));
-  //   }
-  // };
 
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3 } = this.state;
     const { cardImage, cardRare, cardTrunfo, hasTrunfo, selectFilter } = this.state;
     const { savedCards, isSaveButtonDisabled, filter, filteredCards } = this.state;
+    const { checkFilter } = this.state;
     return (
       <div>
         <h1>TrybeTrunfo</h1>
@@ -167,6 +156,7 @@ class App extends React.Component {
         <CardList
           filteredCards={ filteredCards }
           filter={ filter }
+          checkFilter={ checkFilter }
           selectFilter={ selectFilter }
           savedCards={ savedCards }
           onDelButtonClick={ this.onDelButtonClick }

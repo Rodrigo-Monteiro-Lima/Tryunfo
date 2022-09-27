@@ -7,7 +7,7 @@ class CardList extends Component {
   render() {
     const
       { savedCards, onDelButtonClick, filter, onInputChange, filteredCards } = this.props;
-    const { selectFilter } = this.props;
+    const { selectFilter, checkFilter } = this.props;
     return (
       <div>
         Todas as cartas
@@ -15,8 +15,10 @@ class CardList extends Component {
           filter={ filter }
           onInputChange={ onInputChange }
           selectFilter={ selectFilter }
+          checkFilter={ checkFilter }
         />
-        {(filter !== '' || selectFilter !== 'todas' ? filteredCards : savedCards)
+        {(filter !== ''
+        || selectFilter !== 'todas' || checkFilter ? filteredCards : savedCards)
           .map((card) => (<NewCard
             key={ card.cardName }
             cardName={ card.cardName }
@@ -57,6 +59,7 @@ CardList.propTypes = {
     cardRare: PropTypes.string,
   })).isRequired,
   selectFilter: PropTypes.string.isRequired,
+  checkFilter: PropTypes.bool.isRequired,
 };
 
 export default CardList;
