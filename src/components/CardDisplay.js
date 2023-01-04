@@ -9,17 +9,22 @@ import {
   CardText,
   CartAtt,
   CartRarity,
-  Trunfo,
-  Button,
-  Container } from './Card.styled';
+  Trunfo } from './Card.styled';
 import Image from '../trunfo.png';
+import { GameContainer, ButtonConatiner } from './styled';
+import { ShuffleBtn, NextBtn } from './Button.styled';
+import Arrow from '../arrow.png';
 
-class NewCard extends Component {
+class CardDisplay extends Component {
   render() {
-    const { cardName, cardDescription, cardAttr1, cardAttr2, card } = this.props;
-    const { cardAttr3, cardImage, cardRare, cardTrunfo, onDelButtonClick } = this.props;
+    const { randomCard, handleNextClick, isDisabled, handlePlayClick } = this.props;
+    const { randomCards, index } = this.props;
+    const { cardName, cardDescription, cardAttr1, cardAttr2 } = randomCard;
+    const { cardAttr3, cardImage, cardRare, cardTrunfo } = randomCard;
+    const num = randomCards.length - 1;
+    console.log(num);
     return (
-      <Container>
+      <GameContainer>
         <CardArea>
           <InsideCard>
             <NameContainer data-testid="name-card">{cardName}</NameContainer>
@@ -55,29 +60,29 @@ class NewCard extends Component {
             /> : ''}
           </InsideCard>
         </CardArea>
-        <Button
-          type="button"
-          onClick={ () => onDelButtonClick(card) }
-          data-testid="delete-button"
-        >
-          Excluir
-        </Button>
-      </Container>
+        <ButtonConatiner>
+          {index === num ? <ShuffleBtn
+            type="button"
+            onClick={ handlePlayClick }
+          >
+            Embaralhar Cartas
+          </ShuffleBtn> : null}
+          <NextBtn
+            type="button"
+            onClick={ handleNextClick }
+            disabled={ isDisabled }
+          >
+            Próxima carta
+            <img src={ Arrow } alt="seta pra direita" />
+          </NextBtn>
+        </ButtonConatiner>
+      </GameContainer>
     );
   }
 }
 
-NewCard.propTypes = {
-  cardName: PropTypes.string.isRequired,
-  cardDescription: PropTypes.string.isRequired,
-  cardAttr1: PropTypes.string.isRequired,
-  cardAttr2: PropTypes.string.isRequired,
-  cardAttr3: PropTypes.string.isRequired,
-  cardImage: PropTypes.string.isRequired,
-  cardRare: PropTypes.string.isRequired,
-  cardTrunfo: PropTypes.bool.isRequired,
-  onDelButtonClick: PropTypes.func.isRequired,
-  card: PropTypes.shape({
+CardDisplay.propTypes = {
+  randomCard: PropTypes.shape({
     cardName: PropTypes.string.isRequired,
     cardDescription: PropTypes.string.isRequired,
     cardAttr1: PropTypes.string.isRequired,
@@ -87,6 +92,20 @@ NewCard.propTypes = {
     cardRare: PropTypes.string.isRequired,
     cardTrunfo: PropTypes.bool.isRequired,
   }).isRequired,
+  handleNextClick: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  handlePlayClick: PropTypes.func.isRequired,
+  randomCards: PropTypes.arrayOf(PropTypes.shape({
+    cardName: PropTypes.string.isRequired,
+    cardDescription: PropTypes.string.isRequired,
+    cardAttr1: PropTypes.string.isRequired,
+    cardAttr2: PropTypes.string.isRequired,
+    cardAttr3: PropTypes.string.isRequired,
+    cardImage: PropTypes.string.isRequired,
+    cardRare: PropTypes.string.isRequired,
+    cardTrunfo: PropTypes.bool.isRequired,
+  })).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
-export default NewCard;
+export default CardDisplay;

@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { ButtonArea } from './Button.styled';
 
 class Button extends Component {
   render() {
     const { isSaveButtonDisabled, onSaveButtonClick } = this.props;
     return (
-      <button
+      <ButtonArea
         type="button"
         data-testid="save-button"
         onClick={ onSaveButtonClick }
         disabled={ isSaveButtonDisabled }
       >
         Salvar
-      </button>
+      </ButtonArea>
     );
   }
 }

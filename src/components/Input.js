@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { LabelArea, LabelText } from './Label.styled';
+import { InputArea } from './Input.styled';
 
 class Input extends Component {
   render() {
     const { type, name, data, text, value, onInputChange } = this.props;
     return (
-      <label htmlFor={ name }>
-        {text}
-        <input
+      <LabelArea htmlFor={ name }>
+        <LabelText>
+          {text}
+        </LabelText>
+        <InputArea
           type={ type }
           name={ name }
           id={ name }
@@ -15,7 +19,7 @@ class Input extends Component {
           value={ value }
           onChange={ onInputChange }
         />
-      </label>
+      </LabelArea>
     );
   }
 }

@@ -5,6 +5,8 @@ import Textarea from './Textarea';
 import Select from './Select';
 import Checkbox from './Checkbox';
 import Button from './Button';
+import { FormArea, FormTitle } from './Form.styled';
+import { CheckContainer, Text } from './styled';
 
 class Form extends Component {
   render() {
@@ -13,7 +15,10 @@ class Form extends Component {
     const { hasTrunfo, onInputChange, onSaveButtonClick } = this.props;
 
     return (
-      <form>
+      <FormArea>
+        <FormTitle>
+          Adicione nova carta
+        </FormTitle>
         <Input
           type="text"
           name="cardName"
@@ -62,13 +67,15 @@ class Form extends Component {
           onInputChange={ onInputChange }
         />
         <Select value={ cardRare } onInputChange={ onInputChange } />
-        {hasTrunfo ? <span>Você já tem um Super Trunfo em seu baralho</span>
-          : <Checkbox value={ cardTrunfo } onInputChange={ onInputChange } />}
-        <Button
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onSaveButtonClick={ onSaveButtonClick }
-        />
-      </form>
+        <CheckContainer>
+          {hasTrunfo ? <Text>Você já tem um Super Trunfo em seu baralho</Text>
+            : <Checkbox value={ cardTrunfo } onInputChange={ onInputChange } />}
+          <Button
+            isSaveButtonDisabled={ isSaveButtonDisabled }
+            onSaveButtonClick={ onSaveButtonClick }
+          />
+        </CheckContainer>
+      </FormArea>
     );
   }
 }

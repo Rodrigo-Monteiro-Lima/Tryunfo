@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { LabelArea, LabelText } from './Label.styled';
+import { TextArea } from './Textarea.styled';
 
 class Textarea extends Component {
   render() {
     const { data, name, text, value, onInputChange } = this.props;
     return (
-      <label htmlFor={ name }>
-        {text}
-        <textarea
+      <LabelArea htmlFor={ name }>
+        <LabelText>
+          {text}
+        </LabelText>
+        <TextArea
           name={ name }
           id={ name }
           data-testid={ data }
@@ -16,7 +20,7 @@ class Textarea extends Component {
           cols="30"
           rows="10"
         />
-      </label>
+      </LabelArea>
     );
   }
 }

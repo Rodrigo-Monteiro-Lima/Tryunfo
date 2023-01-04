@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CheckboxArea } from './Checkbox.styled';
 
 class Checkbox extends Component {
   render() {
     const { value, onInputChange } = this.props;
     return (
-      <label htmlFor="cardTrunfo">
+      <CheckboxArea htmlFor="cardTrunfo">
         <input
           type="checkbox"
           name="cardTrunfo"
@@ -15,7 +16,7 @@ class Checkbox extends Component {
           data-testid="trunfo-input"
         />
         Super Trybe Trunfo
-      </label>
+      </CheckboxArea>
     );
   }
 }
